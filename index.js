@@ -1,6 +1,13 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
   res.send('Hello world!');
@@ -8,11 +15,11 @@ app.get('/', function(req, res) {
 
 app.post('/alm', function(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Content-Type', 'multipart/form-data');
+  res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
-  let params = req.params;
-  console.log(params);
+  let params = req.body;
+  res.send(params);
 });
 
 app.listen(port, function() {
