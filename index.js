@@ -12,7 +12,7 @@ app.post('/alm', function(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
   let params = req.params;
-  res.send(params);
+  console.log(params);
 });
 
 app.listen(port, function() {
