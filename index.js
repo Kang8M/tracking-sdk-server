@@ -1,10 +1,21 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-// const cors = require('cors');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// app.use(cors({ origin: '*' }));
+var whitelist = ['https://vinfastgiatot5s.com'];
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
+app.use(cors(corsOptionsDelegate));
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -17,10 +28,10 @@ app.get('/', function(req, res) {
 });
 
 app.post('/alm', function(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
+  // res.setHeader('Access-Control-Allow-Origin', '*');
+  // res.setHeader('Content-Type', 'application/json');
+  // res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
   let params = req.body;
   res.send(params);
 });
