@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require("body-parser");
-const cors = require('cors');
+// const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors({ origin: '*' }));
+// app.use(cors({ origin: '*' }));
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -17,10 +17,10 @@ app.get('/', function(req, res) {
 });
 
 app.post('/alm', function(req, res) {
-  // res.setHeader('Access-Control-Allow-Origin', '*');
-  // res.setHeader('Content-Type', 'application/json');
-  // res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
   let params = req.body;
   res.send(params);
 });
