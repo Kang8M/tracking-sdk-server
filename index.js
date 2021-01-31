@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 app.get('/', function(req, res) {
   res.send('Hello world!');
