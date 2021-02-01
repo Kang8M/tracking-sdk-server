@@ -29,6 +29,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'POST');
   res.header('Content-Type', 'application/json');
+  res.header('Access-Control-Allow-Credentials', 'true');
   next();
 })
 
@@ -38,7 +39,6 @@ app.post('/alm', function(req, res) {
   // res.setHeader('Content-Type', 'application/json');
   // res.setHeader('Access-Control-Allow-Methods', 'POST');
   // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
-  // res.setHeader('Access-Control-Allow-Credentials', 'true');
   let params = req.body;
   res.send(params);
 });
