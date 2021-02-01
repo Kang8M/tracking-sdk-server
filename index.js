@@ -35,7 +35,7 @@ app.use(function(req, res, next) {
 app.post('/alm', function(req, res) {
   // res.header
   // res.setHeader('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
-  // res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Type', 'application/json');
   // res.setHeader('Access-Control-Allow-Methods', 'POST');
   // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
   // res.setHeader('Access-Control-Allow-Credentials', 'true');
