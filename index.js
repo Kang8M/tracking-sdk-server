@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(bodyParser.json());
-app.use(bodyParser.text());
+// app.use(bodyParser.text());
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
