@@ -24,16 +24,21 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(bodyParser.text());
 
-app.get('/', function(req, res) {
-  res.send('Hello world!');
-});
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'POST');
+  res.header('Content-Type', 'application/json');
+  next();
+})
 
 app.post('/alm', function(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
-  res.setHeader('Content-Type', 'application/json');
-  res.setHeader('Access-Control-Allow-Methods', 'POST');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  // res.header
+  // res.setHeader('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
+  // res.setHeader('Content-Type', 'application/json');
+  // res.setHeader('Access-Control-Allow-Methods', 'POST');
+  // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
+  // res.setHeader('Access-Control-Allow-Credentials', 'true');
   let params = req.body;
   res.send(params);
 });
