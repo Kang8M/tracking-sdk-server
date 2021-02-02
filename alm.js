@@ -51,8 +51,14 @@ var cookie = {
   }
 };
 
-function getGID() {
+function getGIDViaCookie() {
   return cookie.read('gid');
+}
+
+function getGIDViaLS() {
+  if (window.localStorage) {
+    return localStorage.getItem('gid');
+  }
 }
 
 function getLocationURL() {
@@ -84,13 +90,18 @@ function setLocationPartname() {
 }
 
 function setLocationProtocol() {
-  cookie.write('location_protocol', getLocationProtocol());
+  cookie.write('location_protocol', encodeURIComponent(getLocationProtocol()));
 }
 
 function setGID() {
+  var gidViaCookie = getGIDViaCookie();
+  var gidViaLS = getGIDViaLS();
   var gid = uniqueID();
-  cookie.write('gid', gid);
-  if (window.localStorage) {
+
+  if (gidViaCookie) {
+    cookie.write('gid', gid);
+  }
+  if (gidViaLS) {
     localStorage.setItem("gid", gid);
   }
 }
@@ -98,6 +109,10 @@ function setGID() {
 function setALMEnd() {
   var endDate = new Date().getTime();
   cookie.write('alm_end', endDate);
+}
+
+function getALMEnd() {
+  return cookie.read('alm_end');
 }
 
 function setLog() {
@@ -115,6 +130,7 @@ function getLog() {
   logArr.push(cookie.read('location_pathname'));
   logArr.push(cookie.read('location_protocol'));
   logArr.push(cookie.read('alm_start'));
+  logArr.push(cookie.read('alm_end'));
   logArr.push(getALMDuration());
 
   logArr.join('/');
@@ -166,7 +182,12 @@ function setALMStart() {
 
 function setALMDuration(alm_time) {
   if (window.localStorage) {
-    localStorage.setItem("alm_duration", alm_time);
+    var alm_duration = getALMDuration();
+    if (alm_duration && alm_duration > 0) {
+      // update alm_end, alm_duration with gid, alm_start, location_url
+    } else {
+      localStorage.setItem("alm_duration", alm_time);
+    }
   }
 }
 
