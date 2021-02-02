@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
   next();
 })
 
-app.post('/alm/:a/:name', function(req, res, next) {
+app.post('/alm/:a/:name', function(req, res) {
   // res.header
   // res.setHeader('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
   // res.setHeader('Content-Type', 'application/json');
@@ -41,8 +41,7 @@ app.post('/alm/:a/:name', function(req, res, next) {
   // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
   let params = req.params;
   console.log(params);
-  next();
-  // res.send(params);
+  res.send();
 });
 
 app.listen(port, function() {
