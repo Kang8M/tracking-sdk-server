@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const cors = require('cors');
+const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -32,6 +33,14 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', 'true');
   next();
 })
+
+app.get('/alm/alm.js/:tagid', function(req, res) {
+  fs.readFile('./alm.js', 'utf8', function(err, data) {
+    if (err) throw err;
+    console.log(req.params);
+    res.send(data);
+  });
+});
 
 app.post('/alm/:a/:name', function(req, res) {
   // res.header
