@@ -1,3 +1,5 @@
+var almCount;
+var totalRecord = 0;
 var log = {
   gid: '',
   alm_start: '',
@@ -19,54 +21,6 @@ function uniqueID(){
     '-' + chr4() +
     '-' + chr4() +
     '-' + chr4() + chr4() + chr4();
-}
-
-function getGID() {
-  return log.gid;
-}
-
-function getLocationURL() {
-  return window.location.href;
-}
-
-function getLocationPartname() {
-  return window.location.pathname;
-}
-
-function getLocationHostname() {
-  return window.location.hostname;
-}
-
-function getLocationProtocol() {
-  return window.location.protocol;
-}
-
-function setEndDate(date) {
-  log.alm_end = date;
-}
-
-function setStartDate(date) {
-  log.alm_start = date;
-}
-
-function setLocationURL() {
-  log.location_url = getLocationURL();
-}
-
-function setLocationHostname() {
-  log.location_hostname = getLocationHostname();
-}
-
-function setLocationPartname() {
-  log.location_pathname = getLocationPartname();
-}
-
-function setLocationProtocol() {
-  log.location_protocol = getLocationProtocol();
-}
-
-function setGID() {
-  log.gid = uniqueID();
 }
 
 var cookie = {
@@ -97,87 +51,88 @@ var cookie = {
   }
 };
 
-function setLog() {
-  cookie.write('gid', uniqueID());
-  cookie.write('location_url', getLocationURL());
-  cookie.write('location_hostname', getLocationHostname());
-  cookie.write('location_pathname', getLocationPartname());
+function getGID() {
+  return cookie.read('gid');
+}
+
+function getLocationURL() {
+  return window.location.href;
+}
+
+function getLocationPartname() {
+  return window.location.pathname;
+}
+
+function getLocationHostname() {
+  return window.location.hostname;
+}
+
+function getLocationProtocol() {
+  return window.location.protocol;
+}
+
+function setLocationURL() {
+  cookie.write('location_url', encodeURIComponent(getLocationURL()));
+}
+
+function setLocationHostname() {
+  cookie.write('location_hostname', encodeURIComponent(getLocationHostname()));
+}
+
+function setLocationPartname() {
+  cookie.write('location_pathname', encodeURIComponent(getLocationPartname()));
+}
+
+function setLocationProtocol() {
   cookie.write('location_protocol', getLocationProtocol());
-  // setGID();
-  // setLocationURL();
-  // setLocationHostname();
-  // setLocationPartname();
-  // setLocationProtocol();
-  // window.alm_logs.push(log);
+}
+
+function setGID() {
+  var gid = uniqueID();
+  cookie.write('gid', gid);
+  if (window.localStorage) {
+    localStorage.setItem("gid", gid);
+  }
+}
+
+function setALMEnd() {
+  var endDate = new Date().getTime();
+  cookie.write('alm_end', endDate);
+}
+
+function setLog() {
+  setLocationURL();
+  setLocationHostname();
+  setLocationPartname();
+  setLocationProtocol();
 }
 
 function getLog() {
-  var gid = cookie.read('gid'),
-  location_url = cookie.read('location_url'),
-  location_hostname = cookie.read('location_hostname'),
-  location_pathname = cookie.read('location_pathname'),
-  location_protocol = cookie.read('location_protocol'),
-  alm_start = cookie.read('alm_start'),
-  alm_end = cookie.read('alm_end');
+  var logArr = [];
+  logArr.push(cookie.read('gid'));
+  logArr.push(cookie.read('location_url'));
+  logArr.push(cookie.read('location_hostname'));
+  logArr.push(cookie.read('location_pathname'));
+  logArr.push(cookie.read('location_protocol'));
+  logArr.push(cookie.read('alm_start'));
+  logArr.push(getALMDuration());
 
-  log.gid = gid;
-  log.location_url = location_url;
-  log.location_hostname = location_hostname;
-  log.location_pathname = location_pathname;
-  log.location_protocol = location_protocol;
-  log.alm_start = alm_start;
-  log.alm_end = alm_end;
-
-  return log;
+  logArr.join('/');
+  return logArr;
 }
 
-// function requestWithoutAjax( url, params, method ){
-
-//   params = params || {};
-//   method = method || "post";
-
-//   // function to remove the iframe
-//   var removeIframe = function( iframe ){
-//       iframe.parentElement.removeChild(iframe);
-//   };
-
-//   // make a iframe...
-//   var iframe = document.createElement('iframe');
-//   iframe.style.display = 'none';
-
-//   iframe.onload = function(){
-//       var iframeDoc = this.contentWindow.document;
-
-//       // Make a invisible form
-//       var form = iframeDoc.createElement('form');
-//       form.method = method;
-//       form.action = url;
-//       iframeDoc.body.appendChild(form);
-
-//       // pass the parameters
-//       for( var name in params ){
-//           var input = iframeDoc.createElement('input');
-//           input.type = 'hidden';
-//           input.name = name;
-//           input.value = params[name];
-//           form.appendChild(input);
-//       }
-
-//       form.submit();
-//       // remove the iframe
-//       setTimeout( function(){
-//           removeIframe(iframe);
-//       }, 500);
-//   };
-
-//   document.body.appendChild(iframe);
-// }
-
 function requestS() {
-  var logs = getLog();
-  // console.log(logs);
-  navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/1/hung');
-  // requestWithoutAjax('https://tracking-sdk-server.herokuapp.com/alm', logs);
+  setGID();
+  setALMStart();
+  runALMDurationTime();
+  setTimeout(function() {  
+    var log = getLog();
+    console.log(log);
+    if (log) {
+      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/' + log);
+    }
+    setLog();
+  }, 3000);
 }
 
 function ready (fn) {
@@ -196,13 +151,45 @@ function ready (fn) {
 ready(requestS);
 
 window.addEventListener('beforeunload', function (e) {
-  // e.preventDefault();
-  // e.returnValue = '';
-  var endDate = new Date().getTime();
-  var startDate = window.dataLayer[0]['alm_start'];
-  // setEndDate(endDate);
-  // setStartDate(startDate);
-  setLog();
-  cookie.write('alm_start', startDate);
-  cookie.write('alm_end', endDate);
+  endALMDurationTime();
+  setALMEnd();
+  resetTotalRecord();
 });
+
+function setALMStart() {
+  var startDate = window.dataLayer[0]['alm_start'];
+  cookie.write('alm_start', startDate);
+  if (window.localStorage) {
+    localStorage.setItem("alm_start", startDate);
+  }
+}
+
+function setALMDuration(alm_time) {
+  if (window.localStorage) {
+    localStorage.setItem("alm_duration", alm_time);
+  }
+}
+
+function getALMDuration() {
+  if (window.localStorage) {
+    if (localStorage.getItem("alm_duration")) {
+      return localStorage.getItem("alm_duration");
+    }
+  }
+}
+
+function runALMDurationTime() {
+  almCount = setInterval(() => {
+    ++totalRecord;
+    setALMDuration(totalRecord);
+  }, 1000);
+}
+
+function endALMDurationTime() {
+  clearInterval(almCount);
+}
+
+function resetTotalRecord() {
+  totalRecord = 0;
+  setALMDuration(totalRecord);
+}
