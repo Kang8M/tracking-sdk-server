@@ -33,14 +33,16 @@ app.use(function(req, res, next) {
   next();
 })
 
-app.post('/alm/:a/:name', function(req, res) {
+app.post('/alm/:a/:name', function(req, res, next) {
   // res.header
   // res.setHeader('Access-Control-Allow-Origin', 'https://vinfastgiatot5s.com');
   // res.setHeader('Content-Type', 'application/json');
   // res.setHeader('Access-Control-Allow-Methods', 'POST');
   // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Origin, Cache-Control, X-Requested-With');
   let params = req.params;
-  res.send(params);
+  console.log(params);
+  next();
+  // res.send(params);
 });
 
 app.listen(port, function() {
