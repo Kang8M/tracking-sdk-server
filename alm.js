@@ -145,7 +145,7 @@ function requestS() {
     var log = getLog();
     console.log(log);
     if (log) {
-      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/' + log);
+      // navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/' + log);
     }
     setLog();
   }, 3000);
