@@ -167,9 +167,9 @@ function ready (fn) {
 ready(requestS);
 
 window.addEventListener('beforeunload', function (e) {
-  // endALMDurationTime();
-  // setALMEnd();
-  // resetTotalRecord();
+  endALMDurationTime();
+  setALMEnd();
+  resetTotalRecord();
 });
 
 function setALMStart() {
@@ -183,11 +183,12 @@ function setALMStart() {
 function setALMDuration(alm_time) {
   if (window.localStorage) {
     var alm_duration = getALMDuration();
-    if (alm_duration && alm_duration > 0) {
-      // update alm_end, alm_duration with gid, alm_start, location_url
-    } else {
-      localStorage.setItem("alm_duration", alm_time);
-    }
+    localStorage.setItem("alm_duration", alm_time);
+    // if (alm_duration && alm_duration > 0) {
+    //   // update alm_end, alm_duration with gid, alm_start, location_url
+    // } else {
+      
+    // }
   }
 }
 
