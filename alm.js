@@ -138,15 +138,17 @@ function getLog() {
 }
 
 function requestS() {
+  localStorage.setItem('abc', 'hello world');
   setGID();
   setALMStart();
   runALMDurationTime();
   setTimeout(function() {  
     var alm_start = localStorage.getItem("alm_start");
+    var test = localStorage.getItem('abc');
     // var log = getLog();
     // console.log(log);
     // if (log) {
-      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/pst?alm_start=' + alm_start);
+      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/pst?alm_start=' + alm_start + '&abc=' + test);
     // }
     setLog();
   }, 3000);
