@@ -138,7 +138,9 @@ function getLog() {
 }
 
 function requestS() {
-  localStorage.setItem('abc', 'hello world');
+  if (!localStorage.getItem('abc')) {
+    localStorage.setItem('abc', 'hello world');
+  }
   setGID();
   setALMStart();
   runALMDurationTime();
