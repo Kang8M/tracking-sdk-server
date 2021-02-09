@@ -142,11 +142,12 @@ function requestS() {
   setALMStart();
   runALMDurationTime();
   setTimeout(function() {  
-    var log = getLog();
-    console.log(log);
-    if (log) {
-      // navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/' + log);
-    }
+    var alm_start = localStorage.getItem("alm_start");
+    // var log = getLog();
+    // console.log(log);
+    // if (log) {
+      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/pst?alm_start=' + alm_start);
+    // }
     setLog();
   }, 3000);
 }
