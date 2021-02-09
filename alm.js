@@ -138,7 +138,7 @@ function getLog() {
 }
 
 function requestS() {
-  if (!localStorage.getItem('abc')) {
+  if (!localStorage.getItem('uid')) {
     // alert(1);
     localStorage.setItem('uid', uniqueID());
   }
@@ -147,7 +147,7 @@ function requestS() {
   runALMDurationTime();
   setTimeout(function() {  
     var alm_start = localStorage.getItem("alm_start");
-    var test = localStorage.getItem('abc');
+    var test = localStorage.getItem('uid');
     // var log = getLog();
     // console.log(log);
     // if (log) {
