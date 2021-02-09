@@ -139,6 +139,7 @@ function getLog() {
 
 function requestS() {
   if (!localStorage.getItem('abc')) {
+    alert(1);
     localStorage.setItem('abc', 'hello world');
   }
   setGID();
