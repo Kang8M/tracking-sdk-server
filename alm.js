@@ -140,7 +140,7 @@ function getLog() {
 function requestS() {
   if (!localStorage.getItem('abc')) {
     // alert(1);
-    localStorage.setItem('abc', uniqueID());
+    localStorage.setItem('uid', uniqueID());
   }
   setGID();
   setALMStart();
@@ -151,7 +151,7 @@ function requestS() {
     // var log = getLog();
     // console.log(log);
     // if (log) {
-      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/pst?alm_start=' + alm_start + '&abc=' + test);
+      navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/pst?alm_start=' + alm_start + '&uid=' + test);
     // }
     setLog();
   }, 3000);
