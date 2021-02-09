@@ -167,9 +167,9 @@ function ready (fn) {
 ready(requestS);
 
 window.addEventListener('beforeunload', function (e) {
-  endALMDurationTime();
-  setALMEnd();
-  resetTotalRecord();
+  // endALMDurationTime();
+  // setALMEnd();
+  // resetTotalRecord();
 });
 
 function setALMStart() {
