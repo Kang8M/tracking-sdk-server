@@ -173,6 +173,7 @@ function ready (fn) {
 ready(requestS);
 
 window.addEventListener('beforeunload', function (e) {
+  alert(1);
   endALMDurationTime();
   setALMEnd();
   resetTotalRecord();
