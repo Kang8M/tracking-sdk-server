@@ -144,7 +144,7 @@ function requestS() {
   }
   setGID();
   setALMStart();
-  runALMDurationTime();
+  // runALMDurationTime();
   setTimeout(function() {  
     var alm_start = localStorage.getItem("alm_start");
     var test = localStorage.getItem('uid');
@@ -173,10 +173,9 @@ function ready (fn) {
 ready(requestS);
 
 window.addEventListener('beforeunload', function (e) {
-  alert(1);
-  endALMDurationTime();
-  setALMEnd();
-  resetTotalRecord();
+  // endALMDurationTime();
+  // setALMEnd();
+  // resetTotalRecord();
   var alm_start = localStorage.getItem("alm_start");
   var endTime = new Date().getTime();
   navigator.sendBeacon('https://tracking-sdk-server.herokuapp.com/alm/pst?alm_start=' + alm_start + '&endtime=' + endTime);
